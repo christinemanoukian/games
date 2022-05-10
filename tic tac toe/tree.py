@@ -27,10 +27,16 @@ class Node:
             return self.state[0][0]
         if self.state[0][2] == self.state[1][1] == self.state[2][0] != 0:
             return self.state[0][2]
-        elif self.state.count(0) == 0:
-                return 'tie'
+        count = 0
+        for row in self.state:
+            for space in row:
+                if space == 0:
+                    count += 1
+        if count == 0:
+            return 'tie'
         else:
             return None
+
 
 
 class TicTacToeTree:
@@ -57,7 +63,7 @@ class TicTacToeTree:
                     if new_node not in visited:
                         queue.append(new_node)
                     visited.append(new_node)
-                queue.remove(queue[0])
+            queue.remove(current_node)
 
 
 
@@ -73,3 +79,17 @@ class TicTacToeTree:
     
 tree = TicTacToeTree()
 tree.build_tree()
+leaf_node_count = 0
+root_node = tree.root_node
+queue = [root_node]
+visited = [root_node]
+while queue != []:
+    current_node = queue[0]
+    for child_node in current_node.children:
+        if child_node.children == []:
+            leaf_node_count += 1
+        if child_node not in visited:
+            queue.append(child_node)
+            visited.append(child_node)
+    queue.remove(current_node)
+print(leaf_node_count)
