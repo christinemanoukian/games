@@ -51,20 +51,19 @@ class TicTacToeTree:
         visited = [root_node]
         while queue != []:
             current_node = queue[0]
-            #print(current_node)
             if current_node.winner is None:
-                current_board_state = current_node.state
-                #print(current_board_state)
-                player = current_node.player
-                open_spaces = self.check_for_open_spaces(current_board_state)
+                open_spaces = self.check_for_open_spaces(current_node.state)
                 print(open_spaces)
                 for possible_move in open_spaces:
-                    new_current_board_state = list(current_board_state)
-                    new_current_board_state[possible_move[0]][possible_move[1]] = player
-                    print(new_current_board_state)
-                    new_node = Node(new_current_board_state)
+                    current_board_state = list(current_node.state)
+                    player = current_node.player
+                    print(current_board_state)
+                    current_board_state[possible_move[0]][possible_move[1]] = player
+                    print(current_board_state) #this is right
+                    print(current_node.state) #this should still be the empty board but it's changing still
+                    new_node = Node(current_board_state)
                     current_node.children.append(new_node)
-                    #print(current_node.children)
+                    print(current_node.children)
                     new_node.parent = current_node
                     if new_node not in visited:
                         queue.append(new_node)
