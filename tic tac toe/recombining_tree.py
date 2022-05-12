@@ -42,9 +42,9 @@ class Node:
 class TicTacToeTree:
     def __init__(self):
         self.root_node = Node([[0 for j in range(3)] for i in range(3)])
-        self.nodes = [self.root_node]
+        self.nodes = {'000000000': self.root_node}
         self.leaf_nodes = []
-
+ 
 
     def build_tree(self):
         root_node = self.root_node
@@ -57,10 +57,12 @@ class TicTacToeTree:
                 for possible_move in open_spaces:
                     current_board_state = self.copy_board_state(current_node.state)
                     current_board_state[possible_move[0]][possible_move[1]] = current_node.player
-                    new_node = Node(current_board_state)
-                    # current_node.children.append(new_node)
-                    # new_node.parent = current_node
-                    # self.nodes.append(new_node)
+                    new_node = Node(current_board_state) 
+                    if self.check_if_state_exists(current_board_state) == False:
+                        new_node_state = self.board_to_string(new_node.state)
+                        current_node.children.append(new_node)
+                        new_node.parent = current_node
+                        self.nodes[new_node_state] = new_node
                     queue.append(new_node)
             else:
                 outcomes[current_node.winner] += 1
@@ -70,7 +72,18 @@ class TicTacToeTree:
 
         
 
+    def check_if_state_exists(self, state):
+        if state in self.nodes.values():
+            return True
+        else:
+            return False
+
     
+    def board_to_string(self, state):
+        state = [[str(i) for i in row] for row in state]
+
+        return ''.join([''.join(row) for row in state])
+
 
 
     def copy_board_state(self, state):
@@ -91,3 +104,4 @@ tree = TicTacToeTree()
 tree.build_tree()
 leaf_nodes = len(tree.leaf_nodes)
 print(leaf_nodes)
+print(len(tree.nodes))
