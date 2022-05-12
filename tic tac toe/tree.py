@@ -5,7 +5,7 @@ sys.path.append('tic tac toe')
 class Node:
     def __init__(self, state):
         self.state = state
-        self.player = 1 if self.state.count(1) == self.state.count(2) else 2
+        self.player = 1 if sum(i.count(1) for i in self.state) == sum(i.count(2) for i in self.state) else 2
         self.winner = self.check_winner()
         self.parent = None
         self.children = []
@@ -51,7 +51,6 @@ class TicTacToeTree:
         leaf_nodes = 0
         outcomes = {1: 0, 2: 0, 'tie': 0}
         queue = [root_node]
-        visited = [root_node]
         while queue != []:
             current_node = queue[0]
             if current_node.winner is None:
@@ -64,17 +63,22 @@ class TicTacToeTree:
                     current_node.children.append(new_node)
                     self.nodes.append(new_node)
                     new_node.parent = current_node
-                    if new_node not in visited:
-                        queue.append(new_node)
-                        visited.append(new_node)
+                    queue.append(new_node)
             if current_node.winner is not None:
                 outcomes[current_node.winner] += 1
                 leaf_nodes += 1
-            queue.remove(current_node)
+            queue.remove(current_node) 
         print(leaf_nodes)
         print(outcomes)
 
-
+        
+        # for node in self.nodes:
+        #     if node == self.root_node:
+        #         self.leaf_node_count += len(node.children)
+        #     else:
+        #         parent = node.parent
+        #         self.leaf_node_count += len(parent.children)
+    
 
 
     def copy_board_state(self, state):
