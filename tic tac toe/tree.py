@@ -43,33 +43,42 @@ class TicTacToeTree:
     def __init__(self):
         self.root_node = Node([[0 for j in range(3)] for i in range(3)])
         self.leaf_node_count = 0
+        self.nodes = [self.root_node]
 
 
     def build_tree(self):
         root_node = self.root_node
+        leaf_nodes = 0
+        outcomes = {1: 0, 2: 0, 'tie': 0}
         queue = [root_node]
         visited = [root_node]
         while queue != []:
             current_node = queue[0]
             if current_node.winner is None:
                 open_spaces = self.check_for_open_spaces(current_node.state)
-                print(open_spaces)
                 for possible_move in open_spaces:
-                    current_board_state = list(current_node.state)
+                    current_board_state = self.copy_board_state(current_node.state)
                     player = current_node.player
-                    print(current_board_state)
                     current_board_state[possible_move[0]][possible_move[1]] = player
-                    print(current_board_state) #this is right
-                    print(current_node.state) #this should still be the empty board but it's changing still
                     new_node = Node(current_board_state)
                     current_node.children.append(new_node)
-                    print(current_node.children)
+                    self.nodes.append(new_node)
                     new_node.parent = current_node
                     if new_node not in visited:
                         queue.append(new_node)
-                    visited.append(new_node)
-            self.leaf_node_count += len(current_node.children)
+                        visited.append(new_node)
+            if current_node.winner is not None:
+                outcomes[current_node.winner] += 1
+                leaf_nodes += 1
             queue.remove(current_node)
+        print(leaf_nodes)
+        print(outcomes)
+
+
+
+
+    def copy_board_state(self, state):
+        return [list(sublist) for sublist in state]
 
 
     
