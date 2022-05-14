@@ -11,10 +11,18 @@ class Game:
         self.log = log
         if seed:
             random.seed(seed)
+
+    def reverse_board_order(self, board):
+        reversed_board = []
+        for row in board:
+            reversed_board.insert(row, 0)
+        return reversed_board
     
     def print_board(self):
+        board = self.reverse_board_order(self.board)
+        print(board)
         print("\n-------")
-        for row in self.board:
+        for row in board:
             for element in row[:-1]:
                 print(element, end="  ")
             print(row[-1])

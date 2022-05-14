@@ -8,17 +8,19 @@ class Game:
     def __init__(self, player1, player2, seed=False, log=False):
         self.p1 = player1
         self.p2 = player2
-        self.board = [[0 for j in range(7)] for i in range(6)]
+        self.board = list(reversed([[0 for j in range(7)] for i in range(6)]))
         self.p1.player_number = 1
         self.p2.player_number = 2
         self.winner = None
         self.log = log
         if seed:
             random.seed(seed)
+
     
     def print_board(self):
+        board = reversed(self.board)
         print("\n-------")
-        for row in self.board:
+        for row in board:
             for element in row[:-1]:
                 print(element, end="  ")
             print(row[-1])
@@ -30,7 +32,7 @@ class Game:
         
         x = player.choose_move(self.flatten_list(self.board.copy()))
         if type(x) != tuple:
-            i,j = x//3, x%3
+            i,j = x//7, x%7
         else:
             i,j = x
 
@@ -60,31 +62,34 @@ class Game:
 
     def check_winner(self):
         board = self.board.copy()
-        rows = len(board)
-        columns = len(board[0])
 
-        # check horizontal spaces
-        for y in range(rows):
-            for x in range(columns - 3):
-                if board[x][y] == 0 and board[x+1][y] == 0 and board[x+2][y] == 0 and board[x+3][y] == 0:
-                    self.winner = board[x][y]
 
-        # check vertical spaces
-        for x in range(columns):
-            for y in range(rows - 3):
-                if board[x][y] == 0 and board[x][y+1] == 0 and board[x][y+2] == 0 and board[x][y+3] == 0:
-                    self.winner = board[x][y]
+        # Check horizontal locations for win
+        for c in range(4):
+            for r in range(6):
+                if board[r][c] == board[r][c+1] == board[r][c+2] == board[r][c+3] != 0:
+                    self.winner = board[r][c]
 
-        # check diagonal spaces
-        for x in range(columns - 3):
-            for y in range(3, rows):
-                if board[x][y] == 0 and board[x+1][y-1] == 0 and board[x+2][y-2] == 0 and board[x+3][y-3] == 0:
-                    self.winner = board[x][y]
+        # Check vertical locations for win
+        for c in range(7):
+            for r in range(3):
+                if board[r][c] == board[r+1][c] == board[r+2][c] == board[r+3][c] != 0:
+                    self.winner = board[r][c]
 
-        for x in range(columns - 3):
-            for y in range(rows - 3):
-                if board[x][y] == 0 and board[x+1][y+1] == 0 and board[x+2][y+2] == 0 and board[x+3][y+3] == 0:
-                    self.winner = board[x][y]
+        # Check positively sloped diaganols
+        for c in range(4):
+            for r in range(3):
+                if board[r][c] == board[r+1][c+1] == board[r+2][c+2] == board[r+3][c+3] != 0:
+                    self.winner = board[r][c]
+
+        # Check negatively sloped diaganols
+        for c in range(4):
+            for r in range(3, 6):
+                if board[r][c] == board[r-1][c+1] == board[r-2][c+2] == board[r-3][c+3] != 0:
+                    self.winner = board[r][c]
+
+
+
 
 
         else:
@@ -115,6 +120,6 @@ class Game:
 
 
 
-game = Game(player1=Player(random_strategy_function), player2=Player(random_strategy_function), seed=False, log=False)
-game.print_board()
-print(game.check_for_open_spaces())
+# game = Game(player1=Player(random_strategy_function), player2=Player(random_strategy_function), seed=False, log=False)
+# game.print_board()
+# print(game.check_for_open_spaces())

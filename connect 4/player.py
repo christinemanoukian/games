@@ -1,29 +1,38 @@
-class Player:
-    def __init__(self, strategy):
-        self.strategy = strategy
-        self.player_number = None
-
-    def choose_move(self, board): 
-        return self.strategy(board)
-
-
-# does the player class stay the same (as above)? Or is it how i did it below
-
+import random
 
 class RandomPlayer:
     def __init__(self):
         self.player_num = None
-    
-    def choose_move(self, board):
-        board = [state[i:i+7] for i in range(0,42,7)]
-        
-        
-        columns = [[self.board[i][j] for i in range(6)] for j in range(7)]
+
+    def choose_move(self, state):
+        board = [state[i:i+7] for i in range(0,42,7)]  
+        columns = get_columns(board)
 
         
+            
         open_spaces = []
-        # for i in range(len(board)):
-        #     for j in range(len(board[i])):
-        #         if board[i][j] == 0:
-        #             open_spaces.append((i,j))
+        for column in columns:
+            index_of_zero = get_index_of_zero(column)
+            if index_of_zero is not False:
+                open_spaces.append((column.index(0), columns.index(column)))
+                # (how high it is (the row), which column)
+
         return random.choices(open_spaces)[0]
+
+
+def get_index_of_zero(column):
+    zeroes = 0
+    for num in column:
+        if num == 0:
+            zeroes += 1
+            return column.index(0)
+            break
+    if zeroes == 0:
+        return False
+
+
+def get_columns(board):
+    columns = [[board[i][j] for i in range(6)] for j in range(7)]
+    for column in columns:
+        column = reversed(column)
+    return columns
