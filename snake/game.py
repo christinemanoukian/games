@@ -81,5 +81,5 @@ class Game:
             self.snake = self.snake[-self.score:]
 
 
-a = Game(custom_strategy)
+a = Game(input_function)
 print(a.run())

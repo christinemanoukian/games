@@ -7,10 +7,10 @@ from class_strategies import *
 
 
 wins = {1: 0, 2: 0, 'ties': 0}
-for i in range(100):
+for i in range(1):
     player1 = Player(custom_strategy_function)
-    player2 = Player(celeste)
-    game = Game(player1, player2, log=False)
+    player2 = Player(custom_strategy_function)
+    game = Game(player1, player2, log=True)
     game.run()
 
     if type(game.winner) is int:

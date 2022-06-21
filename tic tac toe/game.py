@@ -15,7 +15,7 @@ class Game:
     def reverse_board_order(self, board):
         reversed_board = []
         for row in board:
-            reversed_board.insert(row, 0)
+            reversed_board.insert(0, row)
         return reversed_board
     
     def print_board(self):
