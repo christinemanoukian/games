@@ -40,7 +40,7 @@ class Game:
     
 
 
-    def run(self):
+    def run(self, log=True):
         self.place_random_berry()
         active_game = True
         while active_game == True:
@@ -51,9 +51,10 @@ class Game:
             for segment in self.snake:
                 self.board[segment[0]][segment[1]] = 'O'
             self.board[self.snake[-1][0]][self.snake[-1][1]] = 'e'
-            for spot in self.board:
-                print(spot)
-            print('------------------------------')
+            if log == True:
+                for spot in self.board:
+                    print(spot)
+                print('------------------------------')
             player_move = self.make_move()
             board_move = None
             if player_move == 'w':
@@ -81,5 +82,5 @@ class Game:
             self.snake = self.snake[-self.score:]
 
 
-a = Game(input_function)
-print(a.run())
+a = Game(custom_strategy)
+print(a.run(log=True))

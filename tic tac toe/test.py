@@ -8,7 +8,7 @@ from class_strategies import *
 
 wins = {1: 0, 2: 0, 'ties': 0}
 for i in range(1):
-    player1 = Player(custom_strategy_function)
+    player1 = Player(input_strat)
     player2 = Player(custom_strategy_function)
     game = Game(player1, player2, log=True)
     game.run()

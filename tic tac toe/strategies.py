@@ -162,3 +162,28 @@ def cheater_strategy_function(board):
             board[i][j] = player_num
     
     return (0,0)
+
+
+def input_strat(board):
+    move = input()
+    while move not in ['1', '2', '3', '4', '5', '6', '7', '8', '9']:
+        print('move not valid')
+        move = input()
+    if move == '1':
+        return (2,0)
+    if move == '2':
+        return (2,1)
+    if move == '3':
+        return (2,2)
+    if move == '4':
+        return (1,0)
+    if move == '5':
+        return (1,1)
+    if move == '6':
+        return (1,2)
+    if move == '7':
+        return (0,0)
+    if move == '8':
+        return (0,1)
+    if move == '9':
+        return (0,2)

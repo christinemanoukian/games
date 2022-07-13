@@ -3,4 +3,4 @@ def input_function(snake):
     while move not in ['w','a','s','d']:
         print('move not valid')
         move = input()
-    return move
+    return move 
